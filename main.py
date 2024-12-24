@@ -1,44 +1,87 @@
-from fpdf import FPDF, XPos, YPos
+from fpdf import FPDF
 
 # Formatting variables
 FONT_HEADER = ('Helvetica', 'B', 14)
 FONT_SUBHEADER = ('Helvetica', 'B', 12)
-FONT_TEXT = ('Helvetica', '', 11)
-FONT_DETAILS = ('Helvetica', '', 12)
+FONT_POSITION = ('Helvetica', 'B', 10)
+FONT_TEXT = ('Helvetica', '', 10)
+FONT_DETAILS = ('Helvetica', '', 10)
 SPACING_SMALL = 2
 SPACING_MEDIUM = 5
-SPACING_LARGE = 10
-INDENT = 10
+SPACING_LARGE = 8
+INDENT = 8
+LINE_WIDTH = 0.3
 
 
 class PDF(FPDF):
     def header(self):
         # Header with personal information
         self.set_font(*FONT_HEADER)
-        self.cell(0, SPACING_LARGE, personal_info['name'], new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='C')
+        self.cell(0, SPACING_LARGE, personal_info['name'], new_x="LMARGIN", new_y="NEXT", align='C')
         self.set_font(*FONT_DETAILS)
-        self.cell(0, SPACING_MEDIUM, personal_info['contact_details'], new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='C')
+        self.cell(0, SPACING_MEDIUM, personal_info['contact_details'], new_x="LMARGIN", new_y="NEXT", align='C')
         self.ln(SPACING_MEDIUM)
+        # self.draw_line()
+
+    def draw_line(self):
+        # Draw horizontal line
+        self.set_line_width(LINE_WIDTH)
+        self.line(10, self.get_y(), 200, self.get_y())
+        self.ln(SPACING_SMALL)
 
     def add_section_title(self, title):
         # Format section titles
         self.set_font(*FONT_SUBHEADER)
-        self.cell(0, SPACING_MEDIUM, title, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-        self.ln(SPACING_SMALL)
+        self.cell(0, SPACING_MEDIUM, title, new_x="LMARGIN", new_y="NEXT")
+        self.draw_line()
 
     def add_bullet_point(self, text):
         # Format bullet points
         self.set_font(*FONT_TEXT)
-        self.cell(INDENT)  # Indent for bullet points
-        self.cell(0, SPACING_SMALL + 3, f'- {text}', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        # Add some indentation for the bullet point (icon)
+        self.cell(INDENT, SPACING_SMALL + 3, ' -')  # Bullet point with additional indentation
+        # Add the text, ensuring it's properly wrapped and aligned without extra indentation
+        self.multi_cell(0, SPACING_SMALL + 3, text, new_x="LMARGIN", new_y="NEXT")
+
+    # def add_experience(self, experience):
+    #     # Add professional experience
+    #     self.set_font(*FONT_SUBHEADER)
+    #     self.cell(0, SPACING_SMALL + 3, f"{experience['company']}, {experience['location']}", new_x="LMARGIN", new_y="NEXT")
+    #     self.set_font(*FONT_TEXT)
+    #     self.cell(0, SPACING_SMALL + 3, f"{experience['position']} | {experience['dates']}", new_x="LMARGIN", new_y="NEXT")
+    #     self.ln(SPACING_SMALL)
+    #     for detail in experience['details']:
+    #         self.add_bullet_point(detail)
+    #     self.ln(SPACING_MEDIUM)
 
     def add_experience(self, experience):
         # Add professional experience
         self.set_font(*FONT_SUBHEADER)
-        self.cell(0, SPACING_SMALL + 3, f"{experience['company']}, {experience['location']}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+
+        # Set up the right content
+        right_content = f"{experience['position']} | {experience['dates']}"
+
+        # Get the dynamic width of the company name
+        company_width = self.get_string_width(experience['company'] + ", ")
+
+        # Add the left content (Company, Location)
+        self.cell(company_width, SPACING_SMALL + 3, experience['company'] + ",", border=0)
+
+        # Set the font for the location and add it after the company, dynamically
         self.set_font(*FONT_TEXT)
-        self.cell(0, SPACING_SMALL + 3, f"{experience['position']} | {experience['dates']}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-        self.ln(SPACING_SMALL)
+        location_width = self.get_string_width(experience['location'])  # Measure the width of the location
+        self.cell(location_width, SPACING_SMALL + 3, experience['location'], border=0)
+
+        # Add the right content (Position, Dates), aligned to the right
+        self.set_font(*FONT_TEXT)
+        self.cell(0, SPACING_SMALL + 3, right_content, align='R', new_x="LMARGIN", new_y="NEXT")
+
+        # Add the position
+        self.set_font(*FONT_POSITION)
+        self.cell(0, SPACING_SMALL + 3, f"{experience['position']}", new_x="LMARGIN", new_y="NEXT")
+
+        # Add details as bullet points
+        self.ln(1)
         for detail in experience['details']:
             self.add_bullet_point(detail)
         self.ln(SPACING_MEDIUM)
@@ -46,7 +89,7 @@ class PDF(FPDF):
     def add_education(self, education):
         # Add education details
         self.set_font(*FONT_SUBHEADER)
-        self.cell(0, SPACING_SMALL + 3, f"{education['institution']} | {education['date']}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        self.cell(0, SPACING_SMALL + 3, f"{education['institution']} | {education['date']}", new_x="LMARGIN", new_y="NEXT")
         self.set_font(*FONT_TEXT)
         self.multi_cell(0, SPACING_SMALL + 3, education['description'])
         self.ln(SPACING_MEDIUM)
@@ -56,6 +99,7 @@ class PDF(FPDF):
         self.set_font(*FONT_TEXT)
         self.multi_cell(0, SPACING_SMALL + 3, skills)
         self.ln(SPACING_MEDIUM)
+
 
 # Data variables
 personal_info = {
