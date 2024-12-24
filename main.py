@@ -1,4 +1,5 @@
 from fpdf import FPDF
+import csv
 
 # Formatting variables
 FONT_HEADER = ('Helvetica', 'B', 14)
@@ -14,12 +15,14 @@ LINE_WIDTH = 0.3
 
 
 class PDF(FPDF):
+    personal_info = {"name": "", "contact_details": ""}
+
     def header(self):
         # Header with personal information
         self.set_font(*FONT_HEADER)
-        self.cell(0, SPACING_LARGE, personal_info['name'], new_x="LMARGIN", new_y="NEXT", align='C')
+        self.cell(0, SPACING_LARGE, self.personal_info['name'], new_x="LMARGIN", new_y="NEXT", align='C')
         self.set_font(*FONT_DETAILS)
-        self.cell(0, SPACING_MEDIUM, personal_info['contact_details'], new_x="LMARGIN", new_y="NEXT", align='C')
+        self.cell(0, SPACING_MEDIUM, self.personal_info['contact_details'], new_x="LMARGIN", new_y="NEXT", align='C')
         self.ln(SPACING_MEDIUM)
         # self.draw_line()
 
@@ -58,9 +61,6 @@ class PDF(FPDF):
         # Add professional experience
         self.set_font(*FONT_SUBHEADER)
 
-        # Set up the right content
-        right_content = f"{experience['position']} | {experience['dates']}"
-
         # Get the dynamic width of the company name
         company_width = self.get_string_width(experience['company'] + ", ")
 
@@ -74,7 +74,7 @@ class PDF(FPDF):
 
         # Add the right content (Position, Dates), aligned to the right
         self.set_font(*FONT_TEXT)
-        self.cell(0, SPACING_SMALL + 3, right_content, align='R', new_x="LMARGIN", new_y="NEXT")
+        self.cell(0, SPACING_SMALL + 3, experience['dates'], align='R', new_x="LMARGIN", new_y="NEXT")
 
         # Add the position
         self.set_font(*FONT_POSITION)
@@ -86,13 +86,28 @@ class PDF(FPDF):
             self.add_bullet_point(detail)
         self.ln(SPACING_MEDIUM)
 
-    def add_education(self, education):
-        # Add education details
-        self.set_font(*FONT_SUBHEADER)
-        self.cell(0, SPACING_SMALL + 3, f"{education['institution']} | {education['date']}", new_x="LMARGIN", new_y="NEXT")
-        self.set_font(*FONT_TEXT)
-        self.multi_cell(0, SPACING_SMALL + 3, education['description'])
-        self.ln(SPACING_MEDIUM)
+    def add_education(self, educations):
+        for education in educations:
+            # Add education details
+            self.set_font(*FONT_SUBHEADER)
+
+            # Get the dynamic width of the company name
+            institute_width = self.get_string_width(education['institution'] + ", ")
+            # Add the left content (Company, Location)
+            self.cell(institute_width, SPACING_SMALL + 3, education['institution'] + ",", border=0)
+
+            # Set the font for the location and add it after the company, dynamically
+            self.set_font(*FONT_TEXT)
+            location_width = self.get_string_width(education['location'])  # Measure the width of the location
+            self.cell(location_width, SPACING_SMALL + 3, education['location'], border=0)
+
+            # Add the right content (Position, Dates), aligned to the right
+            self.set_font(*FONT_TEXT)
+            self.cell(0, SPACING_SMALL + 3, education['date'], align='R', new_x="LMARGIN", new_y="NEXT")
+
+            self.set_font(*FONT_TEXT)
+            self.multi_cell(0, SPACING_SMALL + 3, education['description'])
+            self.ln(SPACING_MEDIUM)
 
     def add_skills_and_other(self, skills):
         # Add skills and additional details
@@ -101,81 +116,114 @@ class PDF(FPDF):
         self.ln(SPACING_MEDIUM)
 
 
-# Data variables
-personal_info = {
-    "name": "First Last",
-    "contact_details": "Bay Area, California | +1-234-456-789 | professionalemail@resumeworded.com | linkedin.com/in/username"
-}
+def read_data(file_path):
+    with open(file_path, mode='r') as csv_file:
+        reader = csv.reader(csv_file)
+        lines = list(reader)
 
-summary = "Big Data Engineer with twelve years of experience designing and executing solutions for complex business problems. Migrated local infrastructures to AWS, using [Skill 1] and [Skill 2]."
+    personal_info = {}
+    summary = ""
+    experiences = []
+    education = []
+    skills = ""
+    current_experience = None  # Temporary storage for the current experience block
+    current_education = None  # Temporary storage for the current education block
 
-experiences = [
-    {
-        "company": "Resume Worded",
-        "location": "New York, NY",
-        "position": "Quality Engineer",
-        "dates": "Jun 2020 - Present",
-        "details": [
-            "Attained 25% growth in revenue and customers over the last two years by analyzing business needs, collaborating with stakeholders, and designing a new data warehouse.",
-            "Led 10 data extraction, warehousing, and analytics initiatives that reduced operating costs by 20% and created customized programming options.",
-            "Designed and developed a Big Data analytics platform for processing customer viewing preferences and social media comments using Java, Hive, and Hadoop.",
-            "Integrated Hadoop into traditional ETL, accelerating the extraction, transformation, and loading of structured and unstructured data."
-        ]
-    },
-    {
-        "company": "Growthsi",
-        "location": "New York, NY",
-        "position": "Quality Engineer",
-        "dates": "Jan 2016 - May 2020",
-        "details": [
-            "Worked closely with 15 teams across the company to identify and solve business challenges utilizing large structured and unstructured data in a distributed processing environment.",
-            "Developed a new pricing strategy that boosted margins by 4 percent.",
-            "Automated ETL processes across millions of rows of data which reduced manual workload by 25% monthly."
-        ]
-    },
-    {
-        "company": "Third Company",
-        "location": "San Diego, CA",
-        "position": "Business Analyst",
-        "dates": "May 2008 - Dec 2014",
-        "details": [
-            "Built basic ETL that ingested transactional and event data from a web app with 5,000 daily active users that saved over $40,000 annually in external vendor costs.",
-            "Utilized Spark in Python to distribute data processing on large streaming datasets to improve ingestion and processing of that data by 65%.",
-            "Worked with clients to understand business needs and convert those needs into actionable reports in Tableau saving 10 hours of manual work each week."
-        ]
-    }
-]
+    for line in lines:
+        if len(line) < 2:
+            continue  # Skip empty or malformed lines
 
-education = {
-    "institution": "Resume Worded University, San Francisco, CA",
-    "date": "May 2008",
-    "description": "B.S. in Business Management, Minor in Data Analytics\n- Awards: Resume Worded Teaching Fellow (only 5 awarded to class), Dean's List 2012 (Top 10%)\n- Completed one-year study abroad with Singapore University"
-}
+        section, details = line[0].strip().lower(), line[1].strip().strip('"')
 
-skills = """Skills: Modeling and Design, Data Analytics, Big Data Processing, Amazon Web Services, Statistical Modeling, Hive, Hadoop, ETL, Java
-Volunteering: Volunteer 20 hours/month at the AFG foundation, leading pro-bono city projects (3 month tenure)
-Projects: Built forecasting using parameters, trend lines, and reference lines which saved 30 hours/week"""
+        if section == "name":
+            personal_info["name"] = details
+        elif section in {"contact", "phone", "email", "linkedin"}:
+            if "contact_details" not in personal_info:
+                personal_info["contact_details"] = ""
+            personal_info["contact_details"] += f"{details} | "
+        elif section == "summary":
+            summary = details
+        elif section == "institution":
+            if current_education:
+                education.append(current_education)  # Save the previous education block
+            current_education = {
+                "institution": details,
+                "location": "",
+                "date": "",
+                "description": ""
+            }
+        elif section == "edu. location" and current_education:
+            current_education["location"] = details
+        elif section == "edu. date" and current_education:
+            current_education["date"] = details
+        elif section == "edu. description" and current_education:
+            current_education["description"] += details
+        elif section == "skills":
+            skills = details
+        elif section == "company":
+            if current_experience:
+                experiences.append(current_experience)  # Save the previous experience block
+            current_experience = {
+                "company": details,
+                "location": "",
+                "position": "",
+                "dates": "",
+                "details": []
+            }
+        elif section == "location" and current_experience:
+            current_experience["location"] = details
+        elif section == "position" and current_experience:
+            current_experience["position"] = details
+        elif section == "date" and current_experience:
+            current_experience["dates"] = details
+        elif section == "details" and current_experience:
+            current_experience["details"].append(details)
+        elif section == "" and current_experience and details:
+            # Handle continuation lines for details
+            current_experience["details"].append(details)
 
-# Generate PDF
-pdf = PDF()
-pdf.add_page()
+    # Append the last education and experience blocks
+    if current_education:
+        education.append(current_education)
+    if current_experience:
+        experiences.append(current_experience)
 
-# Add content to PDF
-pdf.add_section_title("SUMMARY")
-pdf.set_font(*FONT_TEXT)
-pdf.multi_cell(0, SPACING_SMALL + 3, summary)
-pdf.ln(SPACING_MEDIUM)
+    # Final cleanup
+    personal_info["contact_details"] = personal_info.get("contact_details", "").rstrip(" | ")
 
-pdf.add_section_title("PROFESSIONAL EXPERIENCE")
-for exp in experiences:
-    pdf.add_experience(exp)
+    return personal_info, summary, experiences, education, skills
 
-pdf.add_section_title("EDUCATION")
-pdf.add_education(education)
 
-pdf.add_section_title("SKILLS & OTHER")
-pdf.add_skills_and_other(skills)
+def main():
+    # Example usage
+    file_path = "resume_data.csv"  # Replace with your CSV file path
+    personal_info, summary, experiences, education, skills = read_data(file_path)
 
-# Save PDF
-output_path = "professional_resume.pdf"
-pdf.output(output_path)
+    # Generate PDF
+    pdf = PDF()
+    pdf.personal_info = personal_info
+    pdf.add_page()
+
+    # Add content to PDF
+    pdf.add_section_title("SUMMARY")
+    pdf.set_font(*FONT_TEXT)
+    pdf.multi_cell(0, SPACING_SMALL + 3, summary)
+    pdf.ln(SPACING_MEDIUM)
+
+    pdf.add_section_title("PROFESSIONAL EXPERIENCE")
+    for exp in experiences:
+        pdf.add_experience(exp)
+
+    pdf.add_section_title("EDUCATION")
+    pdf.add_education(education)
+
+    pdf.add_section_title("SKILLS & OTHER")
+    pdf.add_skills_and_other(skills)
+
+    # Save PDF
+    output_path = "professional_resume.pdf"
+    pdf.output(output_path)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,54 @@
+# Data variables
+personal_info = {
+    "name": "First Last",
+    "contact_details": "Bay Area, California | +1-234-456-789 | professionalemail@resumeworded.com | linkedin.com/in/username"
+}
+
+summary = "Big Data Engineer with twelve years of experience designing and executing solutions for complex business problems. Migrated local infrastructures to AWS, using [Skill 1] and [Skill 2]."
+
+experiences = [
+    {
+        "company": "Resume Worded",
+        "location": "New York, NY",
+        "position": "Quality Engineer",
+        "dates": "Jun 2020 - Present",
+        "details": [
+            "Attained 25% growth in revenue and customers over the last two years by analyzing business needs, collaborating with stakeholders, and designing a new data warehouse.",
+            "Led 10 data extraction, warehousing, and analytics initiatives that reduced operating costs by 20% and created customized programming options.",
+            "Designed and developed a Big Data analytics platform for processing customer viewing preferences and social media comments using Java, Hive, and Hadoop.",
+            "Integrated Hadoop into traditional ETL, accelerating the extraction, transformation, and loading of structured and unstructured data."
+        ]
+    },
+    {
+        "company": "Growthsi",
+        "location": "New York, NY",
+        "position": "Quality Engineer",
+        "dates": "Jan 2016 - May 2020",
+        "details": [
+            "Worked closely with 15 teams across the company to identify and solve business challenges utilizing large structured and unstructured data in a distributed processing environment.",
+            "Developed a new pricing strategy that boosted margins by 4 percent.",
+            "Automated ETL processes across millions of rows of data which reduced manual workload by 25% monthly."
+        ]
+    },
+    {
+        "company": "Third Company",
+        "location": "San Diego, CA",
+        "position": "Business Analyst",
+        "dates": "May 2008 - Dec 2014",
+        "details": [
+            "Built basic ETL that ingested transactional and event data from a web app with 5,000 daily active users that saved over $40,000 annually in external vendor costs.",
+            "Utilized Spark in Python to distribute data processing on large streaming datasets to improve ingestion and processing of that data by 65%.",
+            "Worked with clients to understand business needs and convert those needs into actionable reports in Tableau saving 10 hours of manual work each week."
+        ]
+    }
+]
+
+education = {
+    "institution": "Resume Worded University, San Francisco, CA",
+    "date": "May 2008",
+    "description": "B.S. in Business Management, Minor in Data Analytics\n- Awards: Resume Worded Teaching Fellow (only 5 awarded to class), Dean's List 2012 (Top 10%)\n- Completed one-year study abroad with Singapore University"
+}
+
+skills = """Skills: Modeling and Design, Data Analytics, Big Data Processing, Amazon Web Services, Statistical Modeling, Hive, Hadoop, ETL, Java
+Volunteering: Volunteer 20 hours/month at the AFG foundation, leading pro-bono city projects (3 month tenure)
+Projects: Built forecasting using parameters, trend lines, and reference lines which saved 30 hours/week"""
