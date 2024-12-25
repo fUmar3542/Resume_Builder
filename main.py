@@ -197,20 +197,24 @@ def main():
         pdf.personal_info = personal_info
         pdf.add_page()
 
-        pdf.add_section_title("SUMMARY")
-        pdf.set_font(*FONT_TEXT)
-        pdf.multi_cell(0, SPACING_SMALL + 3, summary)
-        pdf.ln(SPACING_MEDIUM)
+        if summary:
+            pdf.add_section_title("SUMMARY")
+            pdf.set_font(*FONT_TEXT)
+            pdf.multi_cell(0, SPACING_SMALL + 3, summary)
+            pdf.ln(SPACING_MEDIUM)
 
-        pdf.add_section_title("PROFESSIONAL EXPERIENCE")
-        for exp in experiences:
-            pdf.add_experience(exp)
+        if experiences:
+            pdf.add_section_title("PROFESSIONAL EXPERIENCE")
+            for exp in experiences:
+                pdf.add_experience(exp)
 
-        pdf.add_section_title("EDUCATION")
-        pdf.add_education(education)
+        if education:
+            pdf.add_section_title("EDUCATION")
+            pdf.add_education(education)
 
-        pdf.add_section_title("SKILLS & OTHER")
-        pdf.add_skills_and_other(skills)
+        if skills:
+            pdf.add_section_title("SKILLS & OTHER")
+            pdf.add_skills_and_other(skills)
 
         output_path = "professional_resume.pdf"
         pdf.output(output_path)
