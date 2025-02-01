@@ -1,46 +1,51 @@
 Section,Details
 Name,Muhammad Umar Farooq
-Contact,"Bay Area, California"
+Contact,"Lahore, PK"
 Phone,"""+923146869570"""
-Email,professionalemail@resumeworded.com
-Linkedin,linkedin.com/in/username
-Summary,"Big Data Engineer with twelve years of experience designing and executing solutions for complex business problems. Migrated local infrastructures to AWS, using [Skill 1] and [Skill 2]."
-Educational institute,Resume Worded University
-Edu. Location,"San Francisco, CA"
-Edu. Date,Apr 2019 - July 2023
-Edu. Description," B.S. in Business Management, Minor in Data Analytics
-- Awards: Resume Worded Teaching Fellow (only 5 awarded to class), Dean's List 2012 (Top 10%)
-- Completed one-year study abroad with Singapore University"
-Educational institute,Resume Worded University
-Edu. Location,"San Francisco, CA"
-Edu. Date,May 2017 - March 2019
-Edu. Description," B.S. in Business Management, Minor in Data Analytics
-- Completed one-year study abroad with Singapore University"
-Skills,"Skills: Modeling and Design, Data Analytics, Big Data Processing, Amazon Web Services, Statistical Modeling, Hive, Hadoop, ETL, Java
-Volunteering: Volunteer 20 hours/month at the AFG foundation, leading pro-bono city projects (3 month tenure)
-Projects: Built forecasting using parameters, trend lines, and reference lines which saved 30 hours/week"
-Company ,Resume Worded
-Location,"New York, NY"
-Position,Quality Engineer
-Date,Jun 2020 - Present
-Details,"Attained 25% growth in revenue and customers over the last two years by analyzing business needs, collaborating with stakeholders, and designing a new data warehouse."
-,"Led 10 data extraction, warehousing, and analytics initiatives that reduced operating costs by 20% and created customized programming options."
-,"Designed and developed a Big Data analytics platform for processing customer viewing preferences and social media comments using Java, Hive, and Hadoop."
-,"Integrated Hadoop into traditional ETL, accelerating the extraction, transformation, and loading of structured and unstructured data."
-,
-Company ,Growthsi
-Location,"New York, NY"
-Position,Quality Engineer
-Date,Jan 2016 - May 2020
-Details,Worked closely with 15 teams across the company to identify and solve business challenges utilizing large structured and unstructured data in a distributed processing environment.
-,Developed a new pricing strategy that boosted margins by 4 percent.
-,Automated ETL processes across millions of rows of data which reduced manual workload by 25% monthly.
+Email,fumar3542@gmail.com
+Linkedin,https://www.linkedin.com/in/muhammad-umar-farooq-716a05220/
+Summary,"Results-driven Software Engineer with a strong foundation in programming languages such as Python, C++, C# and JAVA. Skilled in software development methodologies, collaboration, and problem-solving. Committed to delivering high-quality code and exceeding client expectations. An effective communicator, eager to contribute to innovative software projects."
+Educational institute,Punjab University College of Information Technology
+Edu. Location,"Lahore, Punjab"
+Edu. Date,Oct 2019 - July 2023
+Edu. Description,BS in Computer Science.
+Educational institute,Government Postgraduate College
+Edu. Location,"Sahiwal, Punjab"
+Edu. Date,Sep 2017 - July 2019
+Edu. Description,FSc. In Pre Engineering
+Skills,"Web Development, Android Development, Desktop Development, Bot Development, Google App Scripting, Web Scraping, Data Extraction, Data Analysis, DigitalOcean, Microsoft Azure, AWS, GitHub, Docker, Selenium, Puppeteer, Playwright, n8n, Apache Jmeter, JProfiler, Performance Testing
+"
+Projects,"1) Home Automation | IoT integration with smart devices for automated home control.
+2) Ecommerce Store | Developed using Flask, HTML, CSS, JS, and Python for a fully functional online store.
+3) Lamegotrading Website | Built with Flask and Python for a trading-focused website.
+4) CodeRexo.com | Designed with HTML, CSS, JS, Email JS, and Calendly integration for scheduling.
+5) Pharmacy Management System | Built using WPF, Entity Framework, and C# for efficient pharmacy management.
+6) UKPC Diseases Data Analysis | Utilized paddleOCR, Azure, and Python for analyzing disease data.
+7) QuickBooks Automation - Monthly Bill Pay Report | Automated reports with QuickBooks API and Python.
+8) Real Estate Desktop Application | Utilized Zillow API and Auction data in Python for property applications.
+9) YouTube Influencer Searching | Leveraged Data v3 API, Selenium, and Python for influencer search automation."
+Company ,Tosnosh
+Location,"Lahore, Punjab"
+Position,Software Engineer
+Date,Jun 2024 - Present
+Details,Designed and developed scalable software solutions that enhanced system performance and efficiency.
+,Collaborated with cross-functional teams to implement new features and optimize existing applications.
+,"Applied best coding practices, reducing software bugs and enhancing maintainability."
 ,
 ,
-Company ,Third Company
-Location,"San Diego, CA"
-Position,Business Analyst
-Date,May 2008 - Dec 2014
-Details,"Built basic ETL that ingested transactional and event data from a web app with 5,000 daily active users that saved over $40,000 annually in external vendor costs."
-,Utilized Spark in Python to distribute data processing on large streaming datasets to improve ingestion and processing of that data by 65%.
-,Worked with clients to understand business needs and convert those needs into actionable reports in Tableau saving 10 hours of manual work each week.
+Company ,i2c inc.
+Location,"Lahore, Punjab"
+Position,Software Quality Engineer
+Date,Dec 2023 - May 2024
+Details,"Led performance testing initiatives using Apache JMeter and JProfiler, boosting system stability."
+,"Automated test cases, significantly reducing manual testing time."
+,Worked closely with development teams to identify and resolve critical software issues.
+,
+,
+Company ,KAAR E KAMAAL
+Location,"Lahore, Punjab"
+Position,General Member
+Date,July 2021 - Present
+Details,Assisted in organizing welfare programs and community outreach initiatives.
+,Contributed to technical projects aimed at supporting social causes through digital solutions.
+,Collaborated with teams to develop innovative strategies for fundraising and awareness campaigns.

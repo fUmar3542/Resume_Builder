@@ -105,6 +105,15 @@ class PDF(FPDF):
         except Exception as e:
             print(f"Error in add_skills_and_other: {e}")  # Catch and print any skills-related errors
 
+    # Adds projects details to the PDF (similar to skills)
+    def add_projects(self, projects):
+        try:
+            self.set_font(*FONT_TEXT)  # Set font for projects text
+            self.multi_cell(0, SPACING_SMALL + 3, projects)  # Print projects
+            self.ln(SPACING_MEDIUM)  # Add medium spacing after projects
+        except Exception as e:
+            print(f"Error in add_projects: {e}")  # Catch and print any projects-related errors
+
 
 # Reads the CSV file containing the resume data
 def read_data(file_path):
@@ -124,6 +133,7 @@ def read_data(file_path):
     experiences = []  # List to store work experience
     education = []  # List to store education details
     skills = ""  # Skills section of the resume
+    projects = ""  # Projects
     current_experience = None  # Temporary storage for the current experience being read
     current_education = None  # Temporary storage for the current education being read
 
@@ -144,6 +154,9 @@ def read_data(file_path):
                 personal_info["contact_details"] += f"{details} | "
             elif section == "summary":
                 summary = details
+            # Process the "projects" section in the CSV file
+            elif section == "projects":
+                projects = details  # Assign the projects details to a variable
             elif section == "educational institute":
                 if current_education:
                     education.append(current_education)
@@ -192,14 +205,14 @@ def read_data(file_path):
     except Exception as e:
         print(f"Error processing CSV data: {e}")  # Catch and print any errors while processing CSV data
 
-    return personal_info, summary, experiences, education, skills  # Return the processed data
+    return personal_info, summary, experiences, education, skills, projects  # Return the processed data
 
 
 # Main function to generate the PDF
 def main():
     try:
         file_path = "resume_data.csv"  # Path to the CSV file
-        personal_info, summary, experiences, education, skills = read_data(file_path)  # Read the data
+        personal_info, summary, experiences, education, skills, projects = read_data(file_path)  # Read the data
 
         if not personal_info:  # Check if data is available
             print("No data to generate the PDF.")
@@ -231,6 +244,11 @@ def main():
         if skills:
             pdf.add_section_title("SKILLS & OTHER")
             pdf.add_skills_and_other(skills)
+
+        # Add projects if available
+        if projects:
+            pdf.add_section_title("PROJECTS")
+            pdf.add_projects(projects)
 
         # Output the PDF to a file
         output_path = "professional_resume.pdf"
